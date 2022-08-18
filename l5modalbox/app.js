@@ -3,6 +3,11 @@ var getbtnsignup = document.getElementById("btn-signup");
 var getbtnclose = document.querySelector(".btn-close");
 var getbtnfullscreen = document.getElementById("btn-fullscreen");
 var getbtnclosescreen = document.getElementById("btn-closescreen");
+var getform = document.querySelector("form");
+
+getform.addEventListener("submit", function (e) {
+  e.preventDefault();
+});
 
 getbtnsignup.addEventListener("click", function () {
   getmodal.style.display = "block";
@@ -30,10 +35,16 @@ getbtnfullscreen.addEventListener("click", function () {
     getde.webkitRequestFullscreen();
   }
 
+  localStorage.setItem("fullscreen", 1);
+
   getbtnclosescreen.style.display = "inline-block";
+
+  fullscreen();
 });
 
 getbtnclosescreen.addEventListener("click", function () {
+  localStorage.removeItem("fullscreen");
+
   if (document.exitFullscreen) {
     document.exitFullscreen();
   } else if (document.msExitFullscreen) {
@@ -42,5 +53,17 @@ getbtnclosescreen.addEventListener("click", function () {
     document.webkitExitFullscreen();
   }
 
+  localStorage.setItem("fullscreen", 0);
+
   getbtnclosescreen.style.display = "none";
+
+  fullscreen();
 });
+
+function fullscreen() {
+  if (localStorage.getItem("fullscreen") === "1") {
+    document.addEventListener("keydown", function (e) {
+      e.preventDefault();
+    });
+  }
+}
